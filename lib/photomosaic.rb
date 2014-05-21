@@ -1,4 +1,5 @@
 require "photomosaic/bing"
+require "photomosaic/image_downloader"
 require "photomosaic/version"
 
 module Photomosaic
