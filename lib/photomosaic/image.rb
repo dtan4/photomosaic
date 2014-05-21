@@ -2,6 +2,14 @@ require "RMagick"
 
 module Photomosaic
   class Image
+    def self.calculate_color_distance(color_a, color_b)
+      sq_red = (color_a[:red] - color_b[:red])**2
+      sq_green = (color_a[:green] - color_b[:green])**2
+      sq_blue = (color_a[:blue] - color_b[:blue])**2
+
+      Math.sqrt(sq_red + sq_green + sq_blue)
+    end
+
     def initialize(image_path)
       @image = Magick::Image.read(image_path).first
     end
