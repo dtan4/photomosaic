@@ -1,3 +1,4 @@
+require "photomosaic/bing"
 require "photomosaic/version"
 
 module Photomosaic
