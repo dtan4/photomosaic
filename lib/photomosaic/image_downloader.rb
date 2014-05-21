@@ -1,3 +1,4 @@
+require "fileutils"
 require "open-uri"
 
 module Photomosaic
@@ -13,6 +14,10 @@ module Photomosaic
         path_list << image_path
         path_list
       end
+    end
+
+    def remove_save_dir
+      FileUtils.remove_entry_secure(@save_dir)
     end
 
     private

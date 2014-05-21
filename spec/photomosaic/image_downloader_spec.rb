@@ -4,20 +4,20 @@ require "webmock/rspec"
 
 module Photomosaic
   describe ImageDownloader do
+    let(:tmpdir) do
+      File.expand_path("../tmp", File.dirname(__FILE__))
+    end
+
+    let(:downloader) do
+      described_class.new(tmpdir)
+    end
+
     describe "#download_images" do
       let(:image_list) do
         [
          "http://example.com/image01.jpg",
          "http://example.com/image02.jpg"
         ]
-      end
-
-      let(:tmpdir) do
-        File.expand_path("../tmp", File.dirname(__FILE__))
-      end
-
-      let(:downloader) do
-        described_class.new(tmpdir)
       end
 
       before do
@@ -41,6 +41,17 @@ module Photomosaic
 
       after do
         FileUtils.rm_rf(tmpdir)
+      end
+    end
+
+    describe "#remove_save_dir" do
+      before do
+        Dir.mkdir(tmpdir)
+      end
+
+      it "should remove save directory" do
+        downloader.remove_save_dir
+        expect(Dir.exist?(tmpdir)).to be_false
       end
     end
   end
