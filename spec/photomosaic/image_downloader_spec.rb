@@ -12,6 +12,22 @@ module Photomosaic
       described_class.new(tmpdir)
     end
 
+    describe "#initialize" do
+      context "with save directory" do
+        it "should set the specified directory to @save_dir" do
+          downloader = described_class.new(tmpdir)
+          expect(downloader.instance_variable_get(:@save_dir)).to eq tmpdir
+        end
+      end
+
+      context "without save directory" do
+        it "should set temporary directory to @save_dir" do
+          downloader = described_class.new
+          expect(downloader.instance_variable_get(:@save_dir)).to match(/photomosaic/)
+        end
+      end
+    end
+
     describe "#download_images" do
       let(:image_list) do
         [
