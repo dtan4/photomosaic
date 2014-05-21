@@ -20,22 +20,22 @@ module Photomosaic
       before do
         stub_request(
                      :get,
-                     "https://:api_key@api.datamarket.azure.com/Bing/Search/v1/Composite?$format=json&$skip=0&$top=10&Query='#{search_keyword}'&Sources='Image'"
+                     "https://:#{api_key}@api.datamarket.azure.com/Bing/Search/v1/Composite?$format=json&$skip=0&$top=10&Query='#{search_keyword}'&Sources='Image'"
                     )
           .to_return(
                      status: 200,
-                     body: JSON.generate({
-                                          d: {
-                                              results: [
-                                                        {
-                                                         Image: [
-                                                                 { MediaUrl: "http://example.com/image01.jpg" },
-                                                                 { MediaUrl: "http://example.com/image02.jpg" }
-                                                                ]
-                                                        }
-                                                       ]
-                                             }
-                                         })
+                     body: JSON.generate(
+                                         d: {
+                                             results: [
+                                                       {
+                                                        Image: [
+                                                                { MediaUrl: "http://example.com/image01.jpg" },
+                                                                { MediaUrl: "http://example.com/image02.jpg" }
+                                                               ]
+                                                       }
+                                                      ]
+                                            }
+                                        )
                     )
       end
 
