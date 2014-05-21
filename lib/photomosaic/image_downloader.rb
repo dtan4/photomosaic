@@ -10,8 +10,13 @@ module Photomosaic
     def download_images(image_list)
       image_list.inject([]) do |path_list, image_url|
         image_path = File.join(@save_dir, File.basename(image_url))
-        download_image(image_url, image_path)
-        path_list << image_path
+
+        begin
+          download_image(image_url, image_path)
+          path_list << image_path
+        rescue
+        end
+
         path_list
       end
     end

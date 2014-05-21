@@ -16,27 +16,30 @@ module Photomosaic
       let(:image_list) do
         [
          "http://example.com/image01.jpg",
-         "http://example.com/image02.jpg"
+         "http://example.com/image02.jpg",
+         "http://example.com/notfound.jpg"
         ]
       end
 
       before do
         stub_request(:get, %r(http://example\.com/image0\d\.jpg))
           .to_return(status: 200, body: "hoge")
+        stub_request(:get, "http://example.com/notfound.jpg")
+          .to_return(status: 404)
         Dir.mkdir(tmpdir)
       end
 
       it "should download listed images to temporary directory" do
         downloader.download_images(image_list)
 
-        image_list.each do |image|
-          expect(File.exist?(File.join(tmpdir, File.basename(image)))).to be_true
+        %w(image01.jpg image02.jpg).each do |image|
+          expect(File.exist?(File.join(tmpdir, image))).to be_true
         end
       end
 
       it "should return the path list" do
         result = downloader.download_images(image_list)
-        expect(result).to match_array image_list.map { |image| File.join(tmpdir, File.basename(image)) }
+        expect(result).to match_array %w(image01.jpg image02.jpg).map { |image| File.join(tmpdir, image) }
       end
 
       after do
