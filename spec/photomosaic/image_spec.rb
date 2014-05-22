@@ -11,11 +11,22 @@ module Photomosaic
     end
 
     describe "#calculate_color_distance" do
-      it "should calculate color distance" do
-        color_a = { red: 50, green: 100, blue: 200 }
-        color_b = { red: 10, green: 20, blue: 30 }
-        expect(described_class.calculate_color_distance(color_a, color_b))
-          .to be_within(192.0).of(192.1)
+      context "by RGB" do
+        it "should calculate color distance" do
+          color_a = { red: 50, green: 100, blue: 200 }
+          color_b = { red: 10, green: 20, blue: 30 }
+          expect(described_class.calculate_color_distance(color_a, color_b, :rgb))
+            .to be_within(0.1).of(192.0)
+        end
+      end
+
+      context "by HSV" do
+        it "should calculate color distance" do
+          color_a = { hue: 100, saturation: 50.0, value: 70.0 }
+          color_b = { hue: 50, saturation: 30.0, value: 50.0 }
+          expect(described_class.calculate_color_distance(color_a, color_b, :hsv))
+            .to be_within(0.1).of(57.4)
+        end
       end
     end
 

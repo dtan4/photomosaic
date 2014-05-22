@@ -2,16 +2,20 @@ require "RMagick"
 
 module Photomosaic
   class Image
-    def self.calculate_color_distance(color_a, color_b)
-      sq_red = (color_a[:red] - color_b[:red])**2
-      sq_green = (color_a[:green] - color_b[:green])**2
-      sq_blue = (color_a[:blue] - color_b[:blue])**2
+    def self.calculate_color_distance(color_a, color_b, color_model = :rgb)
+      element_names =
+        color_model == :rgb ? rgb_element_names : hsv_element_names
 
-      Math.sqrt(sq_red + sq_green + sq_blue)
+      squares = element_names.inject([]) do |sqs, elem|
+        sqs << (color_a[elem] - color_b[elem])**2
+        sqs
+      end
+
+      Math.sqrt(squares.inject(&:+))
     end
 
     def self.rgb_to_hsv(rgb)
-      [:red, :green, :blue].each { |c| rgb[c] = rgb[c].to_f / 256 }
+      rgb_element_names.each { |c| rgb[c] = rgb[c].to_f / 256 }
       rgb_max = rgb.values.max
       rgb_min = rgb.values.min
 
@@ -41,6 +45,14 @@ module Photomosaic
     end
 
     private
+
+    def self.rgb_element_names
+      [:red, :green, :blue]
+    end
+
+    def self.hsv_element_names
+      [:hue, :saturation, :value]
+    end
 
     def self.get_hue(rgb_max, rgb_min, rgb)
       _hue = case rgb_max
