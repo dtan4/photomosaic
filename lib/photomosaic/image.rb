@@ -2,35 +2,12 @@ require "RMagick"
 
 module Photomosaic
   class Image
-    def self.calculate_color_distance(color_a, color_b, color_model = :rgb)
-      element_names = self.send("#{color_model}_element_names")
-
-      squares = element_names.inject([]) do |sqs, elem|
-        sqs << (color_a[elem] - color_b[elem])**2
-        sqs
-      end
-
-      Math.sqrt(squares.inject(&:+))
-    end
-
-    def self.rgb_to_hsv(rgb)
-      rgb_element_names.each { |c| rgb[c] = rgb[c].to_f / 256 }
-      rgb_max = rgb.values.max
-      rgb_min = rgb.values.min
-
-      hue = get_hue(rgb_max, rgb_min, rgb)
-      saturation = (rgb_max - rgb_min) / rgb_max * 100
-      value = rgb_max * 100
-
-      { hue: hue, saturation: saturation, value: value }
-    end
-
     def initialize(image_path)
       @image = Magick::Image.read(image_path).first
     end
 
     def characteristic_color(color_model = :rgb)
-      rgb = [0, 0, 0]
+      rgb = nil
       original_image = @image
 
       begin
@@ -40,33 +17,10 @@ module Photomosaic
         @image = original_image
       end
 
-      color_model == :rgb ? rgb : self.class.rgb_to_hsv(rgb)
+      color_model == :rgb ? rgb : rgb.to_hsv
     end
 
     private
-
-    def self.rgb_element_names
-      [:red, :green, :blue]
-    end
-
-    def self.hsv_element_names
-      [:hue, :saturation, :value]
-    end
-
-    def self.get_hue(rgb_max, rgb_min, rgb)
-      return -1 if rgb_max == rgb_min
-
-      _hue = case rgb_max
-             when rgb[:red]
-               ((rgb[:green] - rgb[:blue]) / (rgb_max - rgb_min)) % 6
-             when rgb[:green]
-               (rgb[:blue] - rgb[:red]) / (rgb_max - rgb_min) + 2
-             else
-               (rgb[:red] - rgb[:green]) / (rgb_max - rgb_min) + 4
-             end
-
-      (_hue * 60).to_i
-    end
 
     def resize!(width, height)
       @image.resize!(width, height)
@@ -75,7 +29,7 @@ module Photomosaic
     def pixel_color(x, y)
       rgb = @image.quantize.color_histogram.keys[pixel_index(x, y)]
 
-      { red: rgb.red / 257, green: rgb.green / 257, blue: rgb.blue / 257 }
+      Color::RGB.new(rgb.red / 257, rgb.green / 257, rgb.blue / 257)
     end
 
     def pixel_index(x, y)
