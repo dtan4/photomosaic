@@ -19,11 +19,22 @@ module Photomosaic
       end
     end
 
+    describe "#rgb_to_hsv" do
+      it "should convert RGB to HSV" do
+        rgb = { red: 50, green: 100, blue: 200 }
+        hsv = described_class.rgb_to_hsv(rgb)
+        expect(hsv[:hue]).to be_within(220.0).of(220.1)
+        expect(hsv[:saturation]).to be_within(75.0).of(75.1)
+        expect(hsv[:value]).to be_within(78.4).of(78.5)
+      end
+    end
+
     describe "#characteristic_color" do
       it "should return characteristic color" do
-        expect(image.characteristic_color[:red]).to be_within(179).of(181)
-        expect(image.characteristic_color[:green]).to be_within(98).of(100)
-        expect(image.characteristic_color[:blue]).to be_within(105).of(107)
+        characteristic_color = image.characteristic_color
+        expect(characteristic_color[:red]).to be_within(179).of(181)
+        expect(characteristic_color[:green]).to be_within(98).of(100)
+        expect(characteristic_color[:blue]).to be_within(105).of(107)
       end
     end
   end

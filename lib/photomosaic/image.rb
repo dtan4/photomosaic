@@ -10,6 +10,18 @@ module Photomosaic
       Math.sqrt(sq_red + sq_green + sq_blue)
     end
 
+    def self.rgb_to_hsv(rgb)
+      [:red, :green, :blue].each { |c| rgb[c] = rgb[c].to_f / 256 }
+      rgb_max = rgb.values.max
+      rgb_min = rgb.values.min
+
+      hue = get_hue(rgb_max, rgb_min, rgb)
+      saturation = (rgb_max - rgb_min) / rgb_max * 100
+      value = rgb_max * 100
+
+      { hue: hue, saturation: saturation, value: value }
+    end
+
     def initialize(image_path)
       @image = Magick::Image.read(image_path).first
     end
@@ -29,6 +41,21 @@ module Photomosaic
     end
 
     private
+
+    def self.get_hue(rgb_max, rgb_min, rgb)
+      _hue = case rgb_max
+             when rgb_min
+               -1
+             when rgb[:red]
+               ((rgb[:green] - rgb[:blue]) / (rgb_max - rgb_min)) % 6
+             when rgb[:green]
+               (rgb[:blue] - rgb[:red]) / (rgb_max - rgb_min) + 2
+             else
+               (rgb[:red] - rgb[:green]) / (rgb_max - rgb_min) + 4
+             end
+
+      _hue * 60 if _hue > 0
+    end
 
     def resize!(width, height)
       @image.resize!(width, height)
