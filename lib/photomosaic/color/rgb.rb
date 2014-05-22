@@ -9,11 +9,11 @@ module Photomosaic::Color
     end
 
     def max
-      @max ||= [@red, @green, @blue].max.to_f
+      @max ||= [@red, @green, @blue].max
     end
 
     def min
-      @min ||= [@red, @green, @blue].min.to_f
+      @min ||= [@red, @green, @blue].min
     end
 
     def to_hsv
@@ -36,23 +36,23 @@ module Photomosaic::Color
       return -1 if max == min
 
       _hue = case max
-             when @red.to_f
-               ((@green - @blue) / (max - min)) % 6
-             when @green.to_f
-               (@blue - @red) / (max - min) + 2
+             when @red
+               ((@green - @blue).to_f / (max - min)) % 6
+             when @green
+               (@blue - @red).to_f / (max - min) + 2
              else
-               (@red - @green) / (max - min) + 4
+               (@red - @green).to_f / (max - min) + 4
              end
 
       (_hue * 60).to_i
     end
 
     def saturation
-      (max - min) / max * 100
+      (max - min).to_f / max * 100
     end
 
     def value
-      max * 100 / 256
+      (max * 100).to_f / 256
     end
   end
 end
