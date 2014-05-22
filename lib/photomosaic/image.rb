@@ -26,7 +26,7 @@ module Photomosaic
       @image = Magick::Image.read(image_path).first
     end
 
-    def characteristic_color
+    def characteristic_color(color_model = :rgb)
       rgb = [0, 0, 0]
       original_image = @image
 
@@ -37,7 +37,7 @@ module Photomosaic
         @image = original_image
       end
 
-      rgb
+      color_model == :rgb ? rgb : self.class.rgb_to_hsv(rgb)
     end
 
     private
@@ -54,7 +54,7 @@ module Photomosaic
                (rgb[:red] - rgb[:green]) / (rgb_max - rgb_min) + 4
              end
 
-      _hue * 60 if _hue > 0
+      (_hue * 60).to_i if _hue > 0
     end
 
     def resize!(width, height)
