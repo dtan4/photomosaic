@@ -3,8 +3,7 @@ require "RMagick"
 module Photomosaic
   class Image
     def self.calculate_color_distance(color_a, color_b, color_model = :rgb)
-      element_names =
-        color_model == :rgb ? rgb_element_names : hsv_element_names
+      element_names = self.send("#{color_model}_element_names")
 
       squares = element_names.inject([]) do |sqs, elem|
         sqs << (color_a[elem] - color_b[elem])**2
@@ -55,9 +54,9 @@ module Photomosaic
     end
 
     def self.get_hue(rgb_max, rgb_min, rgb)
+      return -1 if rgb_max == rgb_min
+
       _hue = case rgb_max
-             when rgb_min
-               -1
              when rgb[:red]
                ((rgb[:green] - rgb[:blue]) / (rgb_max - rgb_min)) % 6
              when rgb[:green]
@@ -66,7 +65,7 @@ module Photomosaic
                (rgb[:red] - rgb[:green]) / (rgb_max - rgb_min) + 4
              end
 
-      (_hue * 60).to_i if _hue > 0
+      (_hue * 60).to_i
     end
 
     def resize!(width, height)
