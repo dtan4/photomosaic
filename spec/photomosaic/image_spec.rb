@@ -12,10 +12,10 @@ module Photomosaic
 
     describe "#calculate_color_distance" do
       it "should calculate color distance" do
-        color_a = { red: 100, green: 200, blue: 300 }
+        color_a = { red: 50, green: 100, blue: 200 }
         color_b = { red: 10, green: 20, blue: 30 }
         expect(described_class.calculate_color_distance(color_a, color_b))
-          .to be_within(336.7).of(336.8)
+          .to be_within(192.0).of(192.1)
       end
     end
 
