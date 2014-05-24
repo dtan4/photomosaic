@@ -3,7 +3,7 @@ require "open-uri"
 
 module Photomosaic
   class ImageDownloader
-    def initialize(save_dir = tmpdir)
+    def initialize(save_dir = tmp_dir)
       @save_dir = save_dir
     end
 
@@ -27,12 +27,12 @@ module Photomosaic
 
     private
 
-    def tmpdir
-      Dir.mktmpdir("photomosaic")
-    end
-
     def download_image(image_url, image_path)
       open(image_path, "wb+") { |f| f.puts open(image_url).read }
+    end
+
+    def tmp_dir
+      Dir.mktmpdir("photomosaic")
     end
   end
 end
