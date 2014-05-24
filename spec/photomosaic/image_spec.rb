@@ -29,5 +29,12 @@ module Photomosaic
         end
       end
     end
+
+    describe "#resize!" do
+      it "should resize itself" do
+        expect_any_instance_of(Magick::Image).to receive(:resize!).with(50, 50)
+        image.resize!(50, 50)
+      end
+    end
   end
 end

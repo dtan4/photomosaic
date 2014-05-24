@@ -20,11 +20,11 @@ module Photomosaic
       color_model == :rgb ? rgb : rgb.to_hsv
     end
 
-    private
-
     def resize!(width, height)
       @image.resize!(width, height)
     end
+
+    private
 
     def pixel_color(x, y)
       rgb = @image.quantize.color_histogram.keys[pixel_index(x, y)]
