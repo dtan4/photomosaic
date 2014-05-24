@@ -2,6 +2,12 @@ require "RMagick"
 
 module Photomosaic
   class Image
+    def self.create_tiled_image(image_path_list, rows, columns, output_path)
+      image_path_list.each_slice(columns).inject(Magick::ImageList.new) do |image_list, row|
+        image_list << Magick::ImageList.new(*row).append(false)
+      end.append(true).write(output_path)
+    end
+
     def initialize(image_path)
       @image = Magick::Image.read(image_path).first
     end

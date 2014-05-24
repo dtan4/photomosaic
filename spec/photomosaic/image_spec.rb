@@ -1,53 +1,93 @@
 require "spec_helper"
+require "fileutils"
+require "tempfile"
 
 module Photomosaic
   describe Image do
-    let(:image_path) do
-      fixture_path("lena.png")
+    context "class methods" do
+      let(:image_list) do
+        [
+         fixture_path("lena_0.png"),
+         fixture_path("lena_1.png"),
+         fixture_path("lena_2.png"),
+         fixture_path("lena_3.png"),
+         fixture_path("lena_4.png"),
+         fixture_path("lena_5.png")
+        ]
+      end
+
+      let(:tmpdir) do
+        File.expand_path("../tmp", File.dirname(__FILE__))
+      end
+
+      let(:output_path) do
+        File.join(tmpdir, "tiled_image.jpg")
+      end
+
+      describe "#create_tiled_image" do
+        before do
+          Dir.mkdir(tmpdir)
+        end
+
+        it "should create tiled image" do
+          described_class.create_tiled_image(image_list, 2, 3, output_path)
+          expect(File.exist?(output_path)).to be_true
+        end
+
+        after do
+          FileUtils.rm_rf(tmpdir)
+        end
+      end
     end
 
-    let(:image) do
-      described_class.new(image_path)
-    end
+    context "instance methods" do
+      let(:image_path) do
+        fixture_path("lena.png")
+      end
 
-    describe "#characteristic_color" do
-      context "by RGB" do
-        it "should return characteristic color in RGB" do
-          characteristic_color = image.characteristic_color(:rgb)
-          expect(characteristic_color.red).to be_within(1).of(180)
-          expect(characteristic_color.green).to be_within(1).of(100)
-          expect(characteristic_color.blue).to be_within(1).of(107)
+      let(:image) do
+        described_class.new(image_path)
+      end
+
+      describe "#characteristic_color" do
+        context "by RGB" do
+          it "should return characteristic color in RGB" do
+            characteristic_color = image.characteristic_color(:rgb)
+            expect(characteristic_color.red).to be_within(1).of(180)
+            expect(characteristic_color.green).to be_within(1).of(100)
+            expect(characteristic_color.blue).to be_within(1).of(107)
+          end
+        end
+
+        context "by HSV" do
+          it "should return characteristic color in HSV" do
+            characteristic_color = image.characteristic_color(:hsv)
+            expect(characteristic_color.hue).to eq 354
+            expect(characteristic_color.saturation).to be_within(0.5).of(44.7)
+            expect(characteristic_color.value).to be_within(0.5).of(70.0)
+          end
         end
       end
 
-      context "by HSV" do
-        it "should return characteristic color in HSV" do
-          characteristic_color = image.characteristic_color(:hsv)
-          expect(characteristic_color.hue).to eq 354
-          expect(characteristic_color.saturation).to be_within(0.5).of(44.7)
-          expect(characteristic_color.value).to be_within(0.5).of(70.0)
+      describe "#posterize!" do
+        it "should posterize itself" do
+          expect_any_instance_of(Magick::Image).to receive(:posterize).with(4)
+          image.posterize!
         end
       end
-    end
 
-    describe "#posterize!" do
-      it "should posterize itself" do
-        expect_any_instance_of(Magick::Image).to receive(:posterize).with(4)
-        image.posterize!
+      describe "#reduce_colors!" do
+        it "should reduce its colors" do
+          expect_any_instance_of(Magick::Image).to receive(:quantize).with(8)
+          image.reduce_colors!
+        end
       end
-    end
 
-    describe "#reduce_colors!" do
-      it "should reduce its colors" do
-        expect_any_instance_of(Magick::Image).to receive(:quantize).with(8)
-        image.reduce_colors!
-      end
-    end
-
-    describe "#resize!" do
-      it "should resize itself" do
-        expect_any_instance_of(Magick::Image).to receive(:resize!).with(50, 50)
-        image.resize!(50, 50)
+      describe "#resize!" do
+        it "should resize itself" do
+          expect_any_instance_of(Magick::Image).to receive(:resize!).with(50, 50)
+          image.resize!(50, 50)
+        end
       end
     end
   end
