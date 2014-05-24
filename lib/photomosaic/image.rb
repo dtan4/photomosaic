@@ -20,6 +20,10 @@ module Photomosaic
       color_model == :rgb ? rgb : rgb.to_hsv
     end
 
+    def posterize!(levels = 4)
+      @image = @image.posterize(levels = 4)
+    end
+
     def resize!(width, height)
       @image.resize!(width, height)
     end

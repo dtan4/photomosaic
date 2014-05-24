@@ -30,6 +30,13 @@ module Photomosaic
       end
     end
 
+    describe "#posterize!" do
+      it "should posterize itself" do
+        expect_any_instance_of(Magick::Image).to receive(:posterize).with(4)
+        image.posterize!
+      end
+    end
+
     describe "#resize!" do
       it "should resize itself" do
         expect_any_instance_of(Magick::Image).to receive(:resize!).with(50, 50)
