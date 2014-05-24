@@ -37,6 +37,13 @@ module Photomosaic
       end
     end
 
+    describe "#reduce_colors!" do
+      it "should reduce its colors" do
+        expect_any_instance_of(Magick::Image).to receive(:quantize).with(8)
+        image.reduce_colors!
+      end
+    end
+
     describe "#resize!" do
       it "should resize itself" do
         expect_any_instance_of(Magick::Image).to receive(:resize!).with(50, 50)
