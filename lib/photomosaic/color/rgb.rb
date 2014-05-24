@@ -21,13 +21,7 @@ module Photomosaic::Color
     end
 
     def calculate_distance(rgb)
-      squares = [
-                 (self.red - rgb.red)**2,
-                 (self.green - rgb.green)**2,
-                 (self.blue - rgb.blue)**2
-                ]
-
-      Math.sqrt(squares.inject(&:+))
+      Math.sqrt(squares_array(rgb).inject(&:+))
     end
 
     private
@@ -49,6 +43,14 @@ module Photomosaic::Color
 
     def saturation
       (max - min).to_f / max * 100
+    end
+
+    def squares_array(rgb)
+      [
+       (self.red - rgb.red)**2,
+       (self.green - rgb.green)**2,
+       (self.blue - rgb.blue)**2
+      ]
     end
 
     def value

@@ -9,13 +9,17 @@ module Photomosaic::Color
     end
 
     def calculate_distance(hsv)
-      squares = [
-                 (self.hue - hsv.hue)**2,
-                 (self.saturation - hsv.saturation)**2,
-                 (self.value - hsv.value)**2
-                ]
+      Math.sqrt(squares_array(hsv).inject(&:+))
+    end
 
-      Math.sqrt(squares.inject(&:+))
+    private
+
+    def squares_array(hsv)
+      [
+       (self.hue - hsv.hue)**2,
+       (self.saturation - hsv.saturation)**2,
+       (self.value - hsv.value)**2
+      ]
     end
   end
 end
