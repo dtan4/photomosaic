@@ -14,7 +14,6 @@ module Photomosaic
       context "by RGB" do
         it "should return characteristic color in RGB" do
           characteristic_color = image.characteristic_color(:rgb)
-          p characteristic_color
           expect(characteristic_color.red).to be_within(1).of(180)
           expect(characteristic_color.green).to be_within(1).of(100)
           expect(characteristic_color.blue).to be_within(1).of(107)
