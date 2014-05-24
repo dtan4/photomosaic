@@ -16,17 +16,14 @@ module Photomosaic
         ]
       end
 
-      let(:tmpdir) do
-        File.expand_path("../tmp", File.dirname(__FILE__))
-      end
-
       let(:output_path) do
-        File.join(tmpdir, "tiled_image.jpg")
+        tmp_path("tiled_image.jpg")
       end
 
       describe "#create_tiled_image" do
         before do
-          Dir.mkdir(tmpdir)
+          FileUtils.rm_rf(tmp_dir) if Dir.exist?(tmp_dir)
+          Dir.mkdir(tmp_dir)
         end
 
         it "should create tiled image" do
@@ -35,7 +32,7 @@ module Photomosaic
         end
 
         after do
-          FileUtils.rm_rf(tmpdir)
+          FileUtils.rm_rf(tmp_dir)
         end
       end
     end

@@ -4,19 +4,15 @@ require "webmock/rspec"
 
 module Photomosaic
   describe ImageDownloader do
-    let(:tmpdir) do
-      File.expand_path("../tmp", File.dirname(__FILE__))
-    end
-
     let(:downloader) do
-      described_class.new(tmpdir)
+      described_class.new(tmp_dir)
     end
 
     describe "#initialize" do
       context "with save directory" do
         it "should set the specified directory to @save_dir" do
-          downloader = described_class.new(tmpdir)
-          expect(downloader.instance_variable_get(:@save_dir)).to eq tmpdir
+          downloader = described_class.new(tmp_dir)
+          expect(downloader.instance_variable_get(:@save_dir)).to eq tmp_dir
         end
       end
 
@@ -42,35 +38,36 @@ module Photomosaic
           .to_return(status: 200, body: "hoge")
         stub_request(:get, "http://example.com/notfound.jpg")
           .to_return(status: 404)
-        Dir.mkdir(tmpdir)
+        FileUtils.rm_rf(tmp_dir) if Dir.exist?(tmp_dir)
+        Dir.mkdir(tmp_dir)
       end
 
       it "should download listed images to temporary directory" do
         downloader.download_images(image_list)
 
         %w(image01.jpg image02.jpg).each do |image|
-          expect(File.exist?(File.join(tmpdir, image))).to be_true
+          expect(File.exist?(tmp_path(image))).to be_true
         end
       end
 
       it "should return the path list" do
         result = downloader.download_images(image_list)
-        expect(result).to match_array %w(image01.jpg image02.jpg).map { |image| File.join(tmpdir, image) }
+        expect(result).to match_array %w(image01.jpg image02.jpg).map { |image| tmp_path(image) }
       end
 
       after do
-        FileUtils.rm_rf(tmpdir)
+        FileUtils.rm_rf(tmp_dir)
       end
     end
 
     describe "#remove_save_dir" do
       before do
-        Dir.mkdir(tmpdir)
+        Dir.mkdir(tmp_dir)
       end
 
       it "should remove save directory" do
         downloader.remove_save_dir
-        expect(Dir.exist?(tmpdir)).to be_false
+        expect(Dir.exist?(tmp_dir)).to be_false
       end
     end
   end
