@@ -4,6 +4,10 @@ require "tempfile"
 
 module Photomosaic
   describe Image do
+    let(:image_path) do
+      fixture_path("lena.png")
+    end
+
     context "class methods" do
       let(:image_path_list) do
         [
@@ -35,13 +39,18 @@ module Photomosaic
           FileUtils.rm_rf(tmp_dir)
         end
       end
+
+      describe "#preprocess_image" do
+        it "should preprocess image" do
+          expect_any_instance_of(described_class).to receive(:resize!).once
+          expect_any_instance_of(described_class).to receive(:posterize!).once
+          expect_any_instance_of(described_class).to receive(:reduce_colors!).once
+          described_class.preprocess_image(image_path)
+        end
+      end
     end
 
     context "instance methods" do
-      let(:image_path) do
-        fixture_path("lena.png")
-      end
-
       let(:image) do
         described_class.new(image_path)
       end
