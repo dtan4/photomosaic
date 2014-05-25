@@ -5,7 +5,7 @@ require "tempfile"
 module Photomosaic
   describe Image do
     context "class methods" do
-      let(:image_list) do
+      let(:image_path_list) do
         [
          fixture_path("lena_0.png"),
          fixture_path("lena_1.png"),
@@ -27,7 +27,7 @@ module Photomosaic
         end
 
         it "should create tiled image" do
-          described_class.create_tiled_image(image_list, 2, 3, output_path)
+          described_class.create_tiled_image(image_path_list, 2, 3, output_path)
           expect(File.exist?(output_path)).to be_true
         end
 
