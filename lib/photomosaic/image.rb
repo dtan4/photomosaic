@@ -40,7 +40,7 @@ module Photomosaic
     end
 
     def reduce_colors!(number_colors = 8)
-      @image = @image.quantize(8)
+      @image = @image.quantize(number_colors)
     end
 
     def resize!(width, height)
