@@ -2,7 +2,7 @@ require "spec_helper"
 require "json"
 require "webmock/rspec"
 
-module Photomosaic
+module Photomosaic::SearchEngine
   describe Bing do
     let(:api_key) do
       "api_key"

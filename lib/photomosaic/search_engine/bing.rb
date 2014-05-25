@@ -1,6 +1,6 @@
 require "searchbing"
 
-module Photomosaic
+module Photomosaic::SearchEngine
   RESULTS_COUNT = 10
 
   class Bing
