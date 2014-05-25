@@ -57,10 +57,6 @@ module Photomosaic
       Color::RGB.new(rgb.red / 257, rgb.green / 257, rgb.blue / 257)
     end
 
-    def pixel_index(x, y)
-      (x - 1) + (y - 1) * image_height
-    end
-
     def image_height
       @image.rows
     end
