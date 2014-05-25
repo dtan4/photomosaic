@@ -26,6 +26,17 @@ module Photomosaic
       color_model == :rgb ? rgb : rgb.to_hsv
     end
 
+    def colors_of_pixels(row_step = 1, col_step = 1)
+      (1..image_height).step(row_step).inject([]) do |colors, y|
+        colors << (1..image_width).step(col_step).inject([]) do |col_colors, x|
+          col_colors << pixel_color(x, y)
+          col_colors
+        end
+
+        colors
+      end
+    end
+
     def posterize!(levels = 4)
       @image = @image.posterize(levels = 4)
     end
@@ -41,13 +52,13 @@ module Photomosaic
     private
 
     def pixel_color(x, y)
-      rgb = @image.quantize.color_histogram.keys[pixel_index(x, y)]
+      rgb = @image.pixel_color(x, y)
 
       Color::RGB.new(rgb.red / 257, rgb.green / 257, rgb.blue / 257)
     end
 
     def pixel_index(x, y)
-      (y - 1) * image_width + (x - 1)
+      (x - 1) + (y - 1) * image_height
     end
 
     def image_height

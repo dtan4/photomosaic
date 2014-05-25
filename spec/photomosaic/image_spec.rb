@@ -66,6 +66,14 @@ module Photomosaic
         end
       end
 
+      describe "#colors_of_pixels" do
+        it "should return the colors of pixels as 2-dimentional array" do
+          colors = image.colors_of_pixels(1, 2)
+          expect(colors).to have(512).items
+          expect(colors[0]).to have(256).items
+        end
+      end
+
       describe "#posterize!" do
         it "should posterize itself" do
           expect_any_instance_of(Magick::Image).to receive(:posterize).with(4)
