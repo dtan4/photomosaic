@@ -13,17 +13,7 @@ module Photomosaic
     end
 
     def characteristic_color(color_model = :rgb)
-      color = nil
-      original_image = @image
-
-      begin
-        resize!(1, 1)
-        color = pixel_color(1, 1, color_model)
-      ensure
-        @image = original_image
-      end
-
-      color
+      @characteristic_color ||= get_characteristic_color(color_model)
     end
 
     def colors_of_pixels(row_step = 1, col_step = 1, color_model = :rgb)
@@ -50,6 +40,20 @@ module Photomosaic
     end
 
     private
+
+    def get_characteristic_color(color_model = :rgb)
+      color = nil
+      original_image = @image
+
+      begin
+        resize!(1, 1)
+        color = pixel_color(1, 1, color_model)
+      ensure
+        @image = original_image
+      end
+
+      color
+    end
 
     def pixel_color(x, y, color_model = :rgb)
       pixel = @image.pixel_color(x, y)
