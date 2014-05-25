@@ -1,3 +1,4 @@
+require "photomosaic/client"
 require "photomosaic/color/hsv"
 require "photomosaic/color/rgb"
 require "photomosaic/image"
