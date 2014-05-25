@@ -13,23 +13,23 @@ module Photomosaic
     end
 
     def characteristic_color(color_model = :rgb)
-      rgb = nil
+      color = nil
       original_image = @image
 
       begin
         resize!(1, 1)
-        rgb = pixel_color(1, 1)
+        color = pixel_color(1, 1, color_model)
       ensure
         @image = original_image
       end
 
-      color_model == :rgb ? rgb : rgb.to_hsv
+      color
     end
 
-    def colors_of_pixels(row_step = 1, col_step = 1)
+    def colors_of_pixels(row_step = 1, col_step = 1, color_model = :rgb)
       (1..image_height).step(row_step).inject([]) do |colors, y|
         colors << (1..image_width).step(col_step).inject([]) do |col_colors, x|
-          col_colors << pixel_color(x, y)
+          col_colors << pixel_color(x, y, color_model)
           col_colors
         end
 
@@ -51,10 +51,10 @@ module Photomosaic
 
     private
 
-    def pixel_color(x, y)
-      rgb = @image.pixel_color(x, y)
-
-      Color::RGB.new(rgb.red / 257, rgb.green / 257, rgb.blue / 257)
+    def pixel_color(x, y, color_model = :rgb)
+      pixel = @image.pixel_color(x, y)
+      rgb = Color::RGB.new(pixel.red / 257, pixel.green / 257, pixel.blue / 257)
+      color_model == :rgb ? rgb : rgb.to_hsv
     end
 
     def image_height

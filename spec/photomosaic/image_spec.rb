@@ -67,10 +67,24 @@ module Photomosaic
       end
 
       describe "#colors_of_pixels" do
-        it "should return the colors of pixels as 2-dimentional array" do
+        it "should return the colors of pixles as a 2-dimentional array" do
           colors = image.colors_of_pixels(1, 2)
           expect(colors).to have(512).items
           expect(colors[0]).to have(256).items
+        end
+
+        context "by RGB" do
+          it "should return the colors of pixels in RGB" do
+            colors = image.colors_of_pixels(1, 2)
+            expect(colors[0][0]).to be_a Photomosaic::Color::RGB
+          end
+        end
+
+        context "by HSV" do
+          it "should return the colors of pixels in HSV" do
+            colors = image.colors_of_pixels(1, 2, :hsv)
+            expect(colors[0][0]).to be_a Photomosaic::Color::HSV
+          end
         end
       end
 
