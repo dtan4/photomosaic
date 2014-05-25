@@ -25,7 +25,7 @@ module Photomosaic
     end
 
     describe "#download_images" do
-      let(:image_list) do
+      let(:image_url_list) do
         [
          "http://example.com/image01.jpg",
          "http://example.com/image02.jpg",
@@ -43,7 +43,7 @@ module Photomosaic
       end
 
       it "should download listed images to temporary directory" do
-        downloader.download_images(image_list)
+        downloader.download_images(image_url_list)
 
         %w(image01.jpg image02.jpg).each do |image|
           expect(File.exist?(tmp_path(image))).to be_true
@@ -51,7 +51,7 @@ module Photomosaic
       end
 
       it "should return the path list" do
-        result = downloader.download_images(image_list)
+        result = downloader.download_images(image_url_list)
         expect(result).to match_array %w(image01.jpg image02.jpg).map { |image| tmp_path(image) }
       end
 
