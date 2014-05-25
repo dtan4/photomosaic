@@ -24,17 +24,6 @@ module Photomosaic
       @characteristic_color ||= get_characteristic_color(color_model)
     end
 
-    def colors_of_pixels(row_step = 1, col_step = 1, color_model = :rgb)
-      (1..image_height).step(row_step).inject([]) do |colors, y|
-        colors << (1..image_width).step(col_step).inject([]) do |col_colors, x|
-          col_colors << pixel_color(x, y, color_model)
-          col_colors
-        end
-
-        colors
-      end
-    end
-
     def dispatch_images(source_image_list, row_step = 1, col_step = 1, color_model = :rgb)
       (1..image_height).step(row_step).inject([]) do |images, y|
         images << (1..image_width).step(col_step).inject([]) do |col_images, x|
