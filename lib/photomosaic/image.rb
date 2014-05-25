@@ -46,14 +46,17 @@ module Photomosaic
 
     def posterize!(levels = 4)
       @image = @image.posterize(levels = 4)
+      self
     end
 
     def reduce_colors!(number_colors = 8)
       @image = @image.quantize(number_colors)
+      self
     end
 
     def resize!(width, height)
       @image.resize!(width, height)
+      self
     end
 
     private
