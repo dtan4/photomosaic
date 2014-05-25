@@ -1,5 +1,6 @@
 require "fileutils"
 require "open-uri"
+require "tmpdir"
 
 module Photomosaic
   class ImageDownloader
