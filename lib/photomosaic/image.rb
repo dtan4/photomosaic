@@ -2,9 +2,14 @@ require "RMagick"
 
 module Photomosaic
   class Image
-    def self.create_tiled_image(image_path_list, rows, columns, output_path)
-      image_path_list.each_slice(columns).inject(Magick::ImageList.new) do |image_list, row|
-        image_list << Magick::ImageList.new(*row).append(false)
+    def self.create_mosaic_image(image_list, output_path)
+      image_list.inject(Magick::ImageList.new) do |images, row|
+        images << row.inject(Magick::ImageList.new) do |col_images, image|
+          col_images << image.image
+          col_images
+        end.append(false)
+
+        images
       end.append(true).write(output_path)
     end
 
@@ -33,6 +38,10 @@ module Photomosaic
 
         images
       end
+    end
+
+    def image
+      @image
     end
 
     def posterize!(levels = 4)

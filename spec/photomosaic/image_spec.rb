@@ -20,18 +20,25 @@ module Photomosaic
     end
 
     context "class methods" do
-      let(:output_path) do
-        tmp_path("tiled_image.jpg")
-      end
+      describe "#create_mosaic_image" do
+        let(:image_list) do
+          5.times.inject([]) do |image_list, _|
+            image_list << image_path_list.map { |path| described_class.new(path) }
+            image_list
+          end
+        end
 
-      describe "#create_tiled_image" do
+        let(:output_path) do
+          tmp_path("tiled_image.jpg")
+        end
+
         before do
           FileUtils.rm_rf(tmp_dir) if Dir.exist?(tmp_dir)
           Dir.mkdir(tmp_dir)
         end
 
         it "should create tiled image" do
-          described_class.create_tiled_image(image_path_list, 2, 3, output_path)
+          described_class.create_mosaic_image(image_list, output_path)
           expect(File.exist?(output_path)).to be_true
         end
 
