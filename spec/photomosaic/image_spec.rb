@@ -8,18 +8,18 @@ module Photomosaic
       fixture_path("lena.png")
     end
 
-    context "class methods" do
-      let(:image_path_list) do
-        [
-         fixture_path("lena_0.png"),
-         fixture_path("lena_1.png"),
-         fixture_path("lena_2.png"),
-         fixture_path("lena_3.png"),
-         fixture_path("lena_4.png"),
-         fixture_path("lena_5.png")
-        ]
-      end
+    let(:image_path_list) do
+      [
+       fixture_path("lena_0.png"),
+       fixture_path("lena_1.png"),
+       fixture_path("lena_2.png"),
+       fixture_path("lena_3.png"),
+       fixture_path("lena_4.png"),
+       fixture_path("lena_5.png")
+      ]
+    end
 
+    context "class methods" do
       let(:output_path) do
         tmp_path("tiled_image.jpg")
       end
@@ -94,6 +94,19 @@ module Photomosaic
             colors = image.colors_of_pixels(1, 2, :hsv)
             expect(colors[0][0]).to be_a Photomosaic::Color::HSV
           end
+        end
+      end
+
+      describe "#dispatch_images" do
+        let(:image_list) do
+          image_path_list.map { |path| described_class.new(path) }
+        end
+
+        it "should return the map of dispatched images as a 2-dimentional array" do
+          images = image.dispatch_images(image_list, 8, 8)
+          expect(images).to have(64).items
+          expect(images[0]).to have(64).items
+          expect(images[0][0]).to be_a described_class
         end
       end
 

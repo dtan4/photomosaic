@@ -35,6 +35,17 @@ module Photomosaic
       end
     end
 
+    def dispatch_images(source_image_list, row_step = 1, col_step = 1, color_model = :rgb)
+      (1..image_height).step(row_step).inject([]) do |images, y|
+        images << (1..image_width).step(col_step).inject([]) do |col_images, x|
+          col_images << nearest_image(source_image_list, x, y, color_model)
+          col_images
+        end
+
+        images
+      end
+    end
+
     def posterize!(levels = 4)
       @image = @image.posterize(levels = 4)
     end
@@ -61,6 +72,12 @@ module Photomosaic
       end
 
       color
+    end
+
+    def nearest_image(source_image_list, x, y, color_model)
+      source_image_list.sort_by do |image|
+        image.characteristic_color(color_model).calculate_distance(pixel_color(x, y, color_model))
+      end.first
     end
 
     def pixel_color(x, y, color_model = :rgb)
