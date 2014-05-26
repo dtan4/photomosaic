@@ -28,7 +28,7 @@ module Photomosaic
       private
 
       def hue
-        return -1 if max == min
+        return 0 if max == min
 
         _hue = case max
                when @red
@@ -43,7 +43,7 @@ module Photomosaic
       end
 
       def saturation
-        (max - min).to_f / max * 100
+        max == 0 ? 0 : (max - min).to_f / max * 100
       end
 
       def squares_array(rgb)
