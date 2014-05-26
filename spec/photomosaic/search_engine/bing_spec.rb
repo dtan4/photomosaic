@@ -13,19 +13,19 @@ module Photomosaic
         "keyword"
       end
 
-      let(:count_result) do
+      let(:number_results) do
         30
       end
 
       let(:client) do
-        described_class.new(api_key, count_result)
+        described_class.new(api_key, number_results)
       end
 
       describe "#get_image_list" do
         before do
           stub_request(
                        :get,
-                       "https://:#{api_key}@api.datamarket.azure.com/Bing/Search/v1/Composite?$format=json&$skip=0&$top=#{count_result}&Query='#{search_keyword}'&Sources='Image'"
+                       "https://:#{api_key}@api.datamarket.azure.com/Bing/Search/v1/Composite?$format=json&$skip=0&$top=#{number_results}&Query='#{search_keyword}'&Sources='Image'"
                       )
             .to_return(
                        status: 200,
