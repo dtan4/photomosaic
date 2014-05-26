@@ -5,7 +5,7 @@ module Photomosaic
     def self.create_mosaic_image(image_list, output_path)
       image_list.inject(Magick::ImageList.new) do |images, row|
         images << row.inject(Magick::ImageList.new) do |col_images, image|
-          col_images << image.image
+          col_images << image.image.dup
           col_images
         end.append(false)
 

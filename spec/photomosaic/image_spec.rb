@@ -37,7 +37,7 @@ module Photomosaic
           Dir.mkdir(tmp_dir)
         end
 
-        it "should create tiled image" do
+        it "should create the mosaic image" do
           described_class.create_mosaic_image(image_list, output_path)
           expect(File.exist?(output_path)).to be_true
         end
