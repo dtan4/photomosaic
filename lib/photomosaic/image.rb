@@ -66,7 +66,7 @@ module Photomosaic
 
     def get_characteristic_color(color_model = :rgb)
       color = nil
-      original_image = @image
+      original_image = @image.dup
 
       begin
         resize!(1, 1)
