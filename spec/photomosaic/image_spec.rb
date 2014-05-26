@@ -49,9 +49,9 @@ module Photomosaic
 
       describe "#preprocess_image" do
         it "should preprocess image" do
-          expect_any_instance_of(described_class).to receive(:resize!).once
-          expect_any_instance_of(described_class).to receive(:posterize!).once
-          expect_any_instance_of(described_class).to receive(:reduce_colors!).once
+          expect_any_instance_of(described_class).to receive(:resize!).with(100, 100).once
+          expect_any_instance_of(described_class).to receive(:posterize!).with(4).once
+          expect_any_instance_of(described_class).to receive(:reduce_colors!).with(8).once
           described_class.preprocess_image(image_path, 100, 100, 4, 8)
         end
       end
