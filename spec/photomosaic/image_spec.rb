@@ -52,7 +52,7 @@ module Photomosaic
           expect_any_instance_of(described_class).to receive(:resize!).once
           expect_any_instance_of(described_class).to receive(:posterize!).once
           expect_any_instance_of(described_class).to receive(:reduce_colors!).once
-          described_class.preprocess_image(image_path, 100, 100)
+          described_class.preprocess_image(image_path, 100, 100, 4, 8)
         end
       end
     end
@@ -99,7 +99,7 @@ module Photomosaic
         it "should posterize itself" do
           expect_any_instance_of(Magick::Image).to receive(:posterize).with(4)
           expect_any_instance_of(described_class).to receive(:reload_image)
-          image.posterize!
+          image.posterize!(4)
         end
       end
 
@@ -107,7 +107,7 @@ module Photomosaic
         it "should reduce its colors" do
           expect_any_instance_of(Magick::Image).to receive(:quantize).with(8)
           expect_any_instance_of(described_class).to receive(:reload_image)
-          image.reduce_colors!
+          image.reduce_colors!(8)
         end
       end
 
