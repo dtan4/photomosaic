@@ -112,10 +112,20 @@ module Photomosaic
       end
 
       describe "#resize!" do
-        it "should resize itself" do
-          expect_any_instance_of(Magick::Image).to receive(:resize!).with(50, 50)
-          expect_any_instance_of(described_class).to receive(:reload_image)
-          image.resize!(50, 50)
+        context "to keep aspect ratio" do
+          it "should resize itself" do
+            expect_any_instance_of(Magick::Image).to receive(:resize_to_fit!).with(25, 50)
+            expect_any_instance_of(described_class).to receive(:reload_image)
+            image.resize!(25, 50, true)
+          end
+        end
+
+        context "not to keep aspect ratio" do
+          it "should resize itself" do
+            expect_any_instance_of(Magick::Image).to receive(:resize!).with(25, 50)
+            expect_any_instance_of(described_class).to receive(:reload_image)
+            image.resize!(25, 50, false)
+          end
         end
       end
     end

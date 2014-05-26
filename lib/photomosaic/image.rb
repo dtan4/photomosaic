@@ -15,7 +15,7 @@ module Photomosaic
 
     def self.preprocess_image(image_path, width, height, level, number_colors)
       image = Photomosaic::Image.new(image_path)
-      image.resize!(width, height)
+      image.resize!(width, height, true)
       image.posterize!(level)
       image.reduce_colors!(number_colors)
       image
@@ -56,8 +56,8 @@ module Photomosaic
       self
     end
 
-    def resize!(width, height)
-      @image.resize!(width, height)
+    def resize!(width, height, keep_ratio)
+      keep_ratio ? @image.resize_to_fit!(width, height) : @image.resize!(width, height)
       reload_image
       self
     end
@@ -69,7 +69,7 @@ module Photomosaic
       original_image = @image.dup
 
       begin
-        resize!(1, 1)
+        resize!(1, 1, false)
         color = pixel_color(1, 1, color_model)
       ensure
         @image = original_image
