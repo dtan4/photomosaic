@@ -52,7 +52,7 @@ module Photomosaic
           expect_any_instance_of(described_class).to receive(:resize!).once
           expect_any_instance_of(described_class).to receive(:posterize!).once
           expect_any_instance_of(described_class).to receive(:reduce_colors!).once
-          described_class.preprocess_image(image_path)
+          described_class.preprocess_image(image_path, 100, 100)
         end
       end
     end

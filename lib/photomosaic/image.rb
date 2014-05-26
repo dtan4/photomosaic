@@ -13,9 +13,9 @@ module Photomosaic
       end.append(true).write(output_path)
     end
 
-    def self.preprocess_image(image_path)
+    def self.preprocess_image(image_path, width, height)
       image = Photomosaic::Image.new(image_path)
-      image.resize!(50, 50)
+      image.resize!(width, height)
       image.posterize!
       image.reduce_colors!
       image
