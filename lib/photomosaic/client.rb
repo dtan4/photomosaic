@@ -1,7 +1,7 @@
 module Photomosaic
   class Client
     def self.run(options)
-      search_engine = options[:search_engine].new(options[:api_key])
+      search_engine = options[:search_engine].new(options[:api_key], options[:number_results])
       image_url_list = search_engine.get_image_list(options[:keyword])
       image_downloader = ImageDownloader.new
 

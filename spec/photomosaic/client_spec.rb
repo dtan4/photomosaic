@@ -14,11 +14,16 @@ module Photomosaic
       "keyword"
     end
 
+    let(:number_results) do
+      30
+    end
+
     let(:options) do
       {
        api_key: api_key,
        search_engine: search_engine,
-       keyword: keyword
+       keyword: keyword,
+       number_results: number_results
       }
     end
 
