@@ -2,11 +2,9 @@ require "searchbing"
 
 module Photomosaic
   module SearchEngine
-    RESULTS_COUNT = 10
-
     class Bing
-      def initialize(api_key)
-        @client = ::Bing.new(api_key, RESULTS_COUNT, "Image")
+      def initialize(api_key, count_result)
+        @client = ::Bing.new(api_key, count_result, "Image")
       end
 
       def get_image_list(keyword)
