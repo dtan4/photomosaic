@@ -45,7 +45,7 @@ module Photomosaic
     end
 
     def posterize!(levels = 4)
-      @image = @image.posterize(levels = 4)
+      @image = @image.posterize(levels)
       reload_image
       self
     end

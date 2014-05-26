@@ -98,6 +98,7 @@ module Photomosaic
       describe "#posterize!" do
         it "should posterize itself" do
           expect_any_instance_of(Magick::Image).to receive(:posterize).with(4)
+          expect_any_instance_of(described_class).to receive(:reload_image)
           image.posterize!
         end
       end
@@ -105,6 +106,7 @@ module Photomosaic
       describe "#reduce_colors!" do
         it "should reduce its colors" do
           expect_any_instance_of(Magick::Image).to receive(:quantize).with(8)
+          expect_any_instance_of(described_class).to receive(:reload_image)
           image.reduce_colors!
         end
       end
@@ -112,6 +114,7 @@ module Photomosaic
       describe "#resize!" do
         it "should resize itself" do
           expect_any_instance_of(Magick::Image).to receive(:resize!).with(50, 50)
+          expect_any_instance_of(described_class).to receive(:reload_image)
           image.resize!(50, 50)
         end
       end
