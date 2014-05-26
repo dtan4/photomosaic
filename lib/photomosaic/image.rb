@@ -46,16 +46,19 @@ module Photomosaic
 
     def posterize!(levels = 4)
       @image = @image.posterize(levels = 4)
+      reload_image
       self
     end
 
     def reduce_colors!(number_colors = 8)
       @image = @image.quantize(number_colors)
+      reload_image
       self
     end
 
     def resize!(width, height)
       @image.resize!(width, height)
+      reload_image
       self
     end
 
@@ -85,6 +88,10 @@ module Photomosaic
       pixel = @image.pixel_color(x, y)
       rgb = Color::RGB.new(pixel.red / 257, pixel.green / 257, pixel.blue / 257)
       color_model == :rgb ? rgb : rgb.to_hsv
+    end
+
+    def reload_image
+      @image = Magick::Image.from_blob(@image.to_blob).first
     end
 
     def image_height
