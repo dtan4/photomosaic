@@ -21,7 +21,7 @@ module Photomosaic
 
       options[:base_image] = File.expand_path(argv[0])
       options[:output_path] = File.expand_path(argv[1])
-      options[:api_key] = ENV["PHOTOMOSAIC_API_KEY"]
+      options[:api_key] = api_key
 
       self.new(options)
     end
@@ -35,6 +35,10 @@ module Photomosaic
     end
 
     private
+
+    def self.api_key
+      ENV["PHOTOMOSAIC_API_KEY"]
+    end
 
     def self.default_options
       {
