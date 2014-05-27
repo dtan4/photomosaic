@@ -57,7 +57,7 @@ module Photomosaic
       end
     end
 
-    describe "#run" do
+    describe "#execute" do
       before do
         allow(Photomosaic::Options).to receive(:parse).and_return(OpenStruct.new(options))
         allow_any_instance_of(Photomosaic::SearchEngine::Bing).to receive(:get_image_list)
@@ -72,8 +72,8 @@ module Photomosaic
         Dir.mkdir(tmp_dir)
       end
 
-      it "should run the program" do
-        described_class.run(argv)
+      it "should execute the program" do
+        described_class.execute(argv)
         expect(File.exist?(output_path)).to be_true
       end
 
