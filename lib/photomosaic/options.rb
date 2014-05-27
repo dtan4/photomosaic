@@ -1,5 +1,4 @@
 require "optparse"
-require "ostruct"
 
 module Photomosaic
   class Options
