@@ -79,8 +79,10 @@ module Photomosaic
     end
 
     def nearest_image(source_image_list, x, y, color_model)
+      pixel = pixel_color(x, y, color_model)
+
       source_image_list.sort_by do |image|
-        image.characteristic_color(color_model).calculate_distance(pixel_color(x, y, color_model))
+        image.characteristic_color(color_model).calculate_distance(pixel)
       end.first
     end
 
