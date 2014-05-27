@@ -2,21 +2,38 @@ require "optparse"
 require "ostruct"
 
 module Photomosaic
-  class Options < OpenStruct
+  class Options
+    KEYS = %w(
+    api_key
+    base_image
+    color_model
+    colors
+    height
+    keyword
+    output_path
+    results
+    search_engine
+    width
+    )
+
     def self.parse(argv)
       options = default_options
       argv = parser(options).parse(argv)
 
       options[:base_image] = File.expand_path(argv[0])
-      options[:output] = File.expand_path(argv[1])
+      options[:output_path] = File.expand_path(argv[1])
       options[:keyword] = argv[2]
       options[:api_key] = ENV["PHOTOMOSAIC_API_KEY"]
 
       self.new(options)
     end
 
-    def initialize(options_hash)
-      super(options_hash)
+    def initialize(options)
+      @options = options
+    end
+
+    KEYS.each do |key|
+      define_method(key) { @options[key.to_sym] }
     end
 
     private

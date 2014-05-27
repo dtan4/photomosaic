@@ -28,12 +28,14 @@ module Photomosaic
         options = described_class.parse(argv)
         expect(options.api_key).to eq api_key
         expect(options.base_image).to eq File.expand_path(base_image_path)
-        expect(options.keyword).to eq keyword
-        expect(options.output).to eq File.expand_path(output_path)
+        expect(options.color_model).to eq :rgb
         expect(options.colors).to eq colors
         expect(options.height).to eq height
-        expect(options.width).to eq width
+        expect(options.keyword).to eq keyword
+        expect(options.output_path).to eq File.expand_path(output_path)
         expect(options.results).to eq results
+        expect(options.search_engine).to eq Photomosaic::SearchEngine::Bing
+        expect(options.width).to eq width
       end
     end
   end
