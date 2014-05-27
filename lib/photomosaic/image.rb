@@ -13,11 +13,11 @@ module Photomosaic
       end.append(true).write(output_path)
     end
 
-    def self.preprocess_image(image_path, width, height, level, number_colors)
+    def self.preprocess_image(image_path, width, height, level, colors)
       image = Photomosaic::Image.new(image_path)
       image.resize!(width, height, true)
       image.posterize!(level)
-      image.reduce_colors!(number_colors)
+      image.reduce_colors!(colors)
       image
     end
 
@@ -50,8 +50,8 @@ module Photomosaic
       self
     end
 
-    def reduce_colors!(number_colors)
-      @image = @image.quantize(number_colors)
+    def reduce_colors!(colors)
+      @image = @image.quantize(colors)
       reload_image
       self
     end

@@ -40,9 +40,9 @@ module Photomosaic
     def self.default_options
       {
        color_model: :rgb,
+       colors: 16,
        height: 200,
-       number_colors: 16,
-       number_results: 50,
+       results: 50,
        search_engine: Photomosaic::SearchEngine::Bing,
        width: 200,
       }

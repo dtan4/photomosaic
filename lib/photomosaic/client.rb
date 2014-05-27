@@ -4,7 +4,7 @@ module Photomosaic
       options = Photomosaic::Options.parse(argv)
       search_engine = options.search_engine.new(options.api_key, options.results)
       image_url_list = search_engine.get_image_list(options.keyword)
-      base_image = Photomosaic::Image.preprocess_image(options.base_image, options.width, options.height, 4, options.number_colors)
+      base_image = Photomosaic::Image.preprocess_image(options.base_image, options.width, options.height, 4, options.colors)
       image_downloader = Photomosaic::ImageDownloader.new
 
       begin
