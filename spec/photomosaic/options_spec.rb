@@ -12,7 +12,7 @@ module Photomosaic
     let(:output_path) { "output_path" }
 
     let(:argv) do
-      "#{base_image_path} #{output_path} #{keyword} -c #{colors} -h #{height} -w #{width} -r #{results}".split(" ")
+      "#{base_image_path} #{output_path} -k #{keyword} -c #{colors} -h #{height} -w #{width} -r #{results}".split(" ")
     end
 
     describe "#parse" do

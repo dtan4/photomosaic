@@ -21,7 +21,6 @@ module Photomosaic
 
       options[:base_image] = File.expand_path(argv[0])
       options[:output_path] = File.expand_path(argv[1])
-      options[:keyword] = argv[2]
       options[:api_key] = ENV["PHOTOMOSAIC_API_KEY"]
 
       self.new(options)
@@ -52,6 +51,7 @@ module Photomosaic
       OptionParser.new do |opt|
         opt.on("-c", "--colors=VAL", "Number of colors") { |val| options[:colors] = val.to_i }
         opt.on("-h", "--height=VAL", "Height of output image") { |val| options[:height] = val.to_i }
+        opt.on("-k", "--keyword=VAL", "Keyword") { |val| options[:keyword] = val }
         opt.on("-r", "--results=VAL", "Number of results") { |val| options[:results] = val.to_i }
         opt.on("-w", "--width=VAL", "Width of output image") { |val| options[:width] = val.to_i }
         opt.on("--hsv", "Use HSV") { |val| options[:color_model] = :hsv }
