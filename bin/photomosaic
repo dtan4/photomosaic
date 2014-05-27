@@ -1,31 +1,5 @@
 #!/usr/bin/env ruby
 
 require "photomosaic"
-require "optparse"
 
-api_key = ENV["PHOTOMOSAIC_API_KEY"]
-
-options = {
-           api_key: api_key,
-           color_model: :rgb,
-           height: 200,
-           number_colors: 16,
-           number_results: 50,
-           search_engine: Photomosaic::SearchEngine::Bing,
-           width: 200,
-          }
-
-parser = OptionParser.new do |opt|
-  opt.on("-c", "--colors=VAL", "Number of colors") { |val| options[:number_colors] = val.to_i }
-  opt.on("-h", "--height=VAL", "Height of output image") { |val| options[:height] = val.to_i }
-  opt.on("-r", "--results=VAL", "Number of results") { |val| options[:number_results] = val.to_i }
-  opt.on("-w", "--width=VAL", "Width of output image") { |val| options[:width] = val.to_i }
-  opt.on("--hsv", "Use HSV") { |val| options[:color_model] = :hsv }
-end
-
-argv = parser.parse(ARGV)
-options[:base_image] = File.expand_path(argv[0])
-options[:output] = File.expand_path(argv[1])
-options[:keyword] = argv[2]
-
-Photomosaic::Client.run(options)
+Photomosaic::Client.run(ARGV)
