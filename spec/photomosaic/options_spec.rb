@@ -48,7 +48,7 @@ module Photomosaic
         it "should raise OptionParser::MissingArgument" do
           expect do
             described_class.parse(argv)
-          end.to raise_error(OptionParser::MissingArgument, /output_path/)
+          end.to raise_error(OptionParser::MissingArgument, /api_key/)
         end
       end
     end
