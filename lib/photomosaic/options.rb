@@ -46,7 +46,7 @@ module Photomosaic
 
     def self.check_options(options)
       REQUIRED_KEYS.each do |key|
-        raise OptionParser::MissingArgument unless options[key.to_sym]
+        raise OptionParser::MissingArgument, key unless options[key.to_sym]
       end
     end
 
