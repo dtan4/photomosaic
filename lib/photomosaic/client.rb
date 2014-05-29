@@ -12,8 +12,8 @@ module Photomosaic
       @image_downloader = Photomosaic::ImageDownloader.new
 
       begin
-        resize_to_pixel_size(pixel_images)
-        Photomosaic::Image.create_mosaic_image(pixel_images, @options.output_path)
+        resized_images = Photomosaic::Image.resize_images(pixel_images, 40, 20)
+        Photomosaic::Image.create_mosaic_image(resized_images, @options.output_path)
       ensure
         @image_downloader.remove_save_dir
       end
@@ -52,12 +52,6 @@ module Photomosaic
     def pixel_images
       @pixel_images ||=
         base_image.dispatch_images(image_list, 1, 2, @options.color_model)
-    end
-
-    def resize_to_pixel_size(images)
-      images.map! do |row|
-        row.map { |image| image.resize!(40, 20, false) }
-      end
     end
 
     def search_engine

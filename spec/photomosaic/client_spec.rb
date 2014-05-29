@@ -40,9 +40,9 @@ module Photomosaic
 
     describe "#execute" do
       before do
-        allow_any_instance_of(described_class).to receive(:pixel_images)
-        allow_any_instance_of(described_class).to receive(:resize_to_pixel_size).and_return(true)
-        allow(Photomosaic::Image).to receive(:create_mosaic_image).and_return(true)
+        allow_any_instance_of(described_class).to receive(:pixel_images).and_return([[]])
+        allow(Photomosaic::Image).to receive(:resize_to_pixel_size)
+        allow(Photomosaic::Image).to receive(:create_mosaic_image)
       end
 
       it "should execute the program" do

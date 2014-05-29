@@ -55,6 +55,24 @@ module Photomosaic
           described_class.preprocess_image(image_path, 100, 100, 4, 8)
         end
       end
+
+      describe "#resize_images" do
+        let(:image) do
+          double(:resize!)
+        end
+
+        let(:image_list) do
+          5.times.inject([]) do |image_list, _|
+            image_list << [image]
+            image_list
+          end
+        end
+
+        it "should resize images" do
+          expect(image).to receive(:resize!).exactly(5).times
+          described_class.resize_images(image_list, 40, 20)
+        end
+      end
     end
 
     context "instance methods" do

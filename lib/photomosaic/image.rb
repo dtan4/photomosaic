@@ -21,6 +21,12 @@ module Photomosaic
       image
     end
 
+    def self.resize_images(images, width, height)
+      images.map do |row|
+        row.map { |image| image.resize!(width, height, false) }
+      end
+    end
+
     def initialize(image_path)
       @image = Magick::Image.read(image_path).first
     end
