@@ -2,4 +2,4 @@
 
 require "photomosaic"
 
-Photomosaic::Client.execute(ARGV)
+Photomosaic::Client.new(ARGV).execute

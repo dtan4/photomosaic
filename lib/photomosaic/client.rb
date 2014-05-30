@@ -1,9 +1,5 @@
 module Photomosaic
   class Client
-    def self.execute(argv)
-      self.new(argv).execute
-    end
-
     def initialize(argv)
       @options = Photomosaic::Options.parse(argv)
     end
