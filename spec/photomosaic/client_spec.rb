@@ -1,5 +1,4 @@
 require "spec_helper"
-require "fileutils"
 require "ostruct"
 
 module Photomosaic
@@ -34,24 +33,54 @@ module Photomosaic
       described_class.new("argv")
     end
 
+    let(:dispatched_images)  do
+      [
+       [image],
+       [image],
+       [image]
+      ]
+    end
+
+    let(:image) do
+      double(Photomosaic::Image)
+    end
+
+    let(:image_name_list) do
+      [
+       "lena_0.png",
+       "lena_1.png",
+       "lena_2.png",
+      ]
+    end
+
+    let(:image_path_list) do
+      image_name_list.map { |name| fixture_path(name) }
+    end
+
+    let(:image_url_list) do
+      image_name_list.map { |name| "http://example.com/#{name}" }
+    end
+
     before do
       allow(Photomosaic::Options).to receive(:parse).and_return(OpenStruct.new(options))
     end
 
     describe "#execute" do
       before do
-        allow_any_instance_of(described_class).to receive(:pixel_images).and_return([[]])
-        allow(Photomosaic::Image).to receive(:resize_to_pixel_size)
+        allow_any_instance_of(Photomosaic::SearchEngine::Bing).to receive(:get_image_list).and_return(image_url_list)
+        allow_any_instance_of(Photomosaic::ImageDownloader).to receive(:download_images).and_return(image_path_list)
         allow(Photomosaic::Image).to receive(:create_mosaic_image)
+        allow(Photomosaic::Image).to receive(:new).and_return(image)
+        allow(Photomosaic::Image).to receive(:resize_to_pixel_size)
+        allow(image).to receive(:dispatch_images).and_return(dispatched_images)
+        allow(image).to receive(:posterize!)
+        allow(image).to receive(:reduce_colors!)
+        allow(image).to receive(:resize!)
       end
 
       it "should execute the program" do
         expect(Photomosaic::Image).to receive(:create_mosaic_image)
         client.execute
-      end
-
-      after do
-        FileUtils.rm_rf(tmp_dir)
       end
     end
   end
