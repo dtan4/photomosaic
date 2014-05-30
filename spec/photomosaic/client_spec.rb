@@ -50,6 +50,7 @@ module Photomosaic
        "lena_0.png",
        "lena_1.png",
        "lena_2.png",
+       "notfound.png"
       ]
     end
 
@@ -70,7 +71,8 @@ module Photomosaic
         allow_any_instance_of(Photomosaic::SearchEngine::Bing).to receive(:get_image_list).and_return(image_url_list)
         allow_any_instance_of(Photomosaic::ImageDownloader).to receive(:download_images).and_return(image_path_list)
         allow(Photomosaic::Image).to receive(:create_mosaic_image)
-        allow(Photomosaic::Image).to receive(:new).and_return(image)
+        allow(Photomosaic::Image).to receive(:new).with(/lena(?:_\d)?\.png/).and_return(image)
+        allow(Photomosaic::Image).to receive(:new).with(/notfound.png/).and_raise Magick::ImageMagickError
         allow(Photomosaic::Image).to receive(:resize_to_pixel_size)
         allow(image).to receive(:dispatch_images).and_return(dispatched_images)
         allow(image).to receive(:posterize!)

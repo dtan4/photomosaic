@@ -39,7 +39,7 @@ module Photomosaic
       @image_list ||= image_path_list.map do |path|
         begin
           Photomosaic::Image.new(path)
-        rescue
+        rescue Magick::ImageMagickError
           nil
         end
       end.compact
