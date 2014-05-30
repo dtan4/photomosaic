@@ -11,14 +11,14 @@ module Photomosaic
     let(:keyword) { "keyword" }
     let(:output_path) { "output_path" }
 
+    before do
+      allow(ENV).to receive(:[]).with("PHOTOMOSAIC_API_KEY").and_return(api_key)
+    end
+
     describe "#parse" do
       context "when the required parameters are specified" do
         let(:argv) do
           "-b #{base_image_path} -o #{output_path} -k #{keyword} -c #{colors} -h #{height} -w #{width} -r #{results}".split(" ")
-        end
-
-        before do
-          allow(ENV).to receive(:[]).with("PHOTOMOSAIC_API_KEY").and_return(api_key)
         end
 
         it "should return Options instance" do
@@ -48,7 +48,7 @@ module Photomosaic
         it "should raise OptionParser::MissingArgument" do
           expect do
             described_class.parse(argv)
-          end.to raise_error(OptionParser::MissingArgument, /api_key/)
+          end.to raise_error(OptionParser::MissingArgument, /output_path/)
         end
       end
     end
