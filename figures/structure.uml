@@ -1,0 +1,21 @@
+@startuml
+
+package Photomosaic {
+  class Client
+  class Image
+  class ImageDownloader
+  class Options
+
+  Client o-- Options
+
+  package SearchEngine {
+    class Bing
+  }
+
+  package Color {
+    class HSV
+    class RGB
+  }
+}
+
+@enduml
