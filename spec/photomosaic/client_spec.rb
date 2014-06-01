@@ -9,6 +9,7 @@ module Photomosaic
     let(:colors) { 16 }
     let(:height) { 200 }
     let(:keyword) { "keyword" }
+    let(:level) { 4 }
     let(:output_path) { tmp_path("output.png") }
     let(:results) { 50 }
     let(:search_engine) { SearchEngine::Bing }
@@ -22,6 +23,7 @@ module Photomosaic
        colors: colors,
        height: height,
        keyword: keyword,
+       level: level,
        output_path: output_path,
        results: results,
        search_engine: search_engine,

@@ -22,7 +22,7 @@ module Photomosaic
                                                           @options.base_image,
                                                           @options.width,
                                                           @options.height,
-                                                          4,
+                                                          @options.level,
                                                           @options.colors
                                                          )
     end

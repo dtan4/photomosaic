@@ -6,6 +6,7 @@ module Photomosaic
     let(:base_image_path) { "base_image_path" }
     let(:colors) { 16 }
     let(:height) { 10 }
+    let(:level) { 4 }
     let(:width) { 20 }
     let(:results) { 100 }
     let(:keyword) { "keyword" }
@@ -18,7 +19,7 @@ module Photomosaic
     describe "#parse" do
       context "when the required parameters are specified" do
         let(:argv) do
-          "-b #{base_image_path} -o #{output_path} -k #{keyword} -c #{colors} -h #{height} -w #{width} -r #{results}".split(" ")
+          "-b #{base_image_path} -o #{output_path} -k #{keyword} -c #{colors} -h #{height} -w #{width} -r #{results} -l #{level}".split(" ")
         end
 
         it "should return Options instance" do
@@ -33,6 +34,7 @@ module Photomosaic
           expect(options.colors).to eq colors
           expect(options.height).to eq height
           expect(options.keyword).to eq keyword
+          expect(options.level).to eq level
           expect(options.output_path).to eq File.expand_path(output_path)
           expect(options.results).to eq results
           expect(options.search_engine).to eq Photomosaic::SearchEngine::Bing

@@ -9,6 +9,7 @@ module Photomosaic
     colors
     height
     keyword
+    level
     output_path
     results
     search_engine
@@ -55,6 +56,7 @@ module Photomosaic
        color_model: :rgb,
        colors: 16,
        height: 200,
+       level: 4,
        results: 50,
        search_engine: Photomosaic::SearchEngine::Bing,
        width: 200,
@@ -67,6 +69,7 @@ module Photomosaic
         opt.on("-c", "--colors=VAL", "Number of colors") { |val| options[:colors] = val.to_i }
         opt.on("-h", "--height=VAL", "Height of output image") { |val| options[:height] = val.to_i }
         opt.on("-k", "--keyword=VAL", "Keyword") { |val| options[:keyword] = val }
+        opt.on("-l", "--level=VAL", "Color level") { |val| options[:level] = val.to_i }
         opt.on("-o", "--output_path=VAL", "Path of mosaic image") { |val| options[:output_path] = File.expand_path(val) }
         opt.on("-r", "--results=VAL", "Number of results") { |val| options[:results] = val.to_i }
         opt.on("-w", "--width=VAL", "Width of output image") { |val| options[:width] = val.to_i }
