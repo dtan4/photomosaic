@@ -26,7 +26,7 @@ create ImageDownloader
 Client -> ImageDownloader : << new >>
 Client -> ImageDownloader : Request to download images
 activate ImageDownloader
-ImageDownloader -> Web : Request to download images
+ImageDownloader -> Web : Request images
 activate Web
 Web -> ImageDownloader : Download images
 deactivate Web
@@ -43,7 +43,7 @@ Client -> PixelImage : << new >>
 
 Client -> BaseImage : Request to dispatch pixel images
 activate BaseImage
-BaseImage -> PixelImage : Request its characteristic color
+BaseImage -> PixelImage : Request characteristic color
 activate PixelImage
 PixelImage -> PixelImage : Calculate characteristic color
 PixelImage -> BaseImage : Characteristic color
