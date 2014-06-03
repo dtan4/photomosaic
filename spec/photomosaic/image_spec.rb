@@ -39,7 +39,7 @@ module Photomosaic
 
         it "should create the mosaic image" do
           described_class.create_mosaic_image(image_list, output_path)
-          expect(File.exist?(output_path)).to be_true
+          expect(File.exist?(output_path)).to be_truthy
         end
 
         after do
@@ -107,8 +107,8 @@ module Photomosaic
 
         it "should return the map of dispatched images as a 2-dimentional array" do
           images = image.dispatch_images(image_list, 8, 8)
-          expect(images).to have(64).items
-          expect(images[0]).to have(64).items
+          expect(images.length).to eq 64
+          expect(images[0].length).to eq 64
           expect(images[0][0]).to be_a described_class
         end
       end

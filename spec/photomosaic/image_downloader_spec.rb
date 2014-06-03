@@ -46,7 +46,7 @@ module Photomosaic
         downloader.download_images(image_url_list)
 
         %w(image01.jpg image02.jpg).each do |image|
-          expect(File.exist?(tmp_path(image))).to be_true
+          expect(File.exist?(tmp_path(image))).to be_truthy
         end
       end
 
@@ -67,7 +67,7 @@ module Photomosaic
 
       it "should remove save directory" do
         downloader.remove_save_dir
-        expect(Dir.exist?(tmp_dir)).to be_false
+        expect(Dir.exist?(tmp_dir)).to be_falsy
       end
     end
   end
