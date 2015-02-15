@@ -6,11 +6,11 @@ require 'photomosaic/version'
 Gem::Specification.new do |spec|
   spec.name          = "photomosaic"
   spec.version       = Photomosaic::VERSION
-  spec.authors       = ["dtan4"]
+  spec.authors       = ["Daisuke Fujita"]
   spec.email         = ["dtanshi45@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Photomosaic Generator}
+  spec.description   = %q{Photomosaic Generator}
+  spec.homepage      = "https://github.com/dtan4/photomosaic"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
