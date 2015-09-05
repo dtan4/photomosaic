@@ -1,7 +1,7 @@
 # Photomosaic
 [![Build Status](https://travis-ci.org/dtan4/photomosaic.svg?branch=master)](https://travis-ci.org/dtan4/photomosaic)
-[![Coverage Status](https://coveralls.io/repos/dtan4/photomosaic/badge.png)](https://coveralls.io/r/dtan4/photomosaic)
-[![Code Climate](https://codeclimate.com/github/dtan4/photomosaic.png)](https://codeclimate.com/github/dtan4/photomosaic)
+[![Test Coverage](https://codeclimate.com/github/dtan4/photomosaic/badges/coverage.svg)](https://codeclimate.com/github/dtan4/photomosaic/coverage)
+[![Code Climate](https://codeclimate.com/github/dtan4/photomosaic/badges/gpa.svg)](https://codeclimate.com/github/dtan4/photomosaic)
 
 TODO: Write a gem description
 
